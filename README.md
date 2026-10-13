@@ -6,7 +6,7 @@ Laboratorio per insegnare il triage ai nuovi analisti SOC. Sette console simulat
 - **Demo funzionante:** `demo/index.html` (un solo file di circa 2 MB, apribile anche da disco)
 - **Online:** https://maryeena.github.io/threat-hunting-range/ · [apri la demo](https://maryeena.github.io/threat-hunting-range/demo/)
 
-[![Simulatore: riepilogo di un'offense](img/qradar-offense.png)](https://maryeena.github.io/threat-hunting-range/demo/?guide=off#/sim/a24-qradar-offense/offenses/4471)
+[![Come funziona: dal percorso al caso, dalla console al payload, fino al resoconto](img/anteprima.gif)](https://maryeena.github.io/threat-hunting-range/demo/)
 
 ## Che cosa contiene la demo
 

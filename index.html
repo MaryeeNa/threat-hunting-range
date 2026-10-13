@@ -8,6 +8,11 @@
 <meta property="og:title" content="Threat Hunting Range">
 <meta property="og:description" content="Laboratorio di triage per analisti SOC: sette console simulate, 31 casi, demo funzionante nel browser.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://maryeena.github.io/threat-hunting-range/">
+<meta property="og:image" content="https://maryeena.github.io/threat-hunting-range/img/condivisione.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="author" content="Marina Flocco">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -192,9 +197,15 @@ footer p{margin:0;max-width:48rem}
 </section>
 
 <section class="sezione" id="viste">
-  <h2>Cinque viste, ognuna si apre nella demo</h2>
-  <p class="intro">Le schermate vengono dal laboratorio pubblicato. Un clic porta alla stessa vista, pronta da usare.</p>
+  <h2>Come funziona, in mezzo minuto</h2>
+  <p class="intro">Dal percorso al caso, dalla console al payload, fino al resoconto. Le immagini vengono dal laboratorio pubblicato: un clic apre la stessa vista, pronta da usare.</p>
   <div class="viste">
+    <figure class="grande"><a href="demo/">
+      <picture>
+        <source media="(prefers-reduced-motion: reduce)" srcset="img/percorso.png">
+        <img src="img/anteprima.gif" width="960" height="668" alt="Sequenza animata: il percorso, la scheda di un caso, la console simulata con la guida, la ricerca degli eventi, una query, il payload, altre due console, una guida pratica e i risultati" loading="lazy">
+      </picture></a>
+      <figcaption><strong>Il giro completo in dieci viste.</strong> L'animazione si ripete; per provarlo davvero <a href="demo/">apri la demo</a></figcaption></figure>
     <figure class="grande"><a href="demo/?guide=off#/sim/a24-qradar-offense/offenses/4471"><img src="img/qradar-offense.png" width="1440" height="900" alt="Simulatore QRadar: riepilogo di un'offense con 86 login falliti" loading="lazy"></a>
       <figcaption><strong>Console SIEM simulata.</strong> Il riepilogo di un'offense: da qui si legge la regola, si aprono gli eventi e si arriva al payload. <a href="demo/?guide=off#/sim/a24-qradar-offense/offenses/4471">Apri l'offense</a></figcaption></figure>
     <figure><a href="demo/#/"><img src="img/percorso.png" width="1440" height="900" alt="Il percorso di formazione con le tappe e gli esercizi" loading="lazy"></a>
