@@ -8,6 +8,7 @@
 <meta property="og:title" content="Threat Hunting Range">
 <meta property="og:description" content="Laboratorio di triage per analisti SOC: sette console simulate, 31 casi, demo funzionante nel browser.">
 <meta property="og:type" content="website">
+<meta name="author" content="Marina Flocco">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -253,17 +254,17 @@ footer p{margin:0;max-width:48rem}
 <script>
 /* Dati personali: si modificano solo qui. I campi lasciati vuoti restano evidenziati nella pagina. */
 const PROFILO = {
-  nome: "",          // es. "Nome Cognome"
-  bio: "",           // due o tre frasi
-  linkedin: "",      // indirizzo completo del profilo
-  email: "",         // es. "nome@dominio.it"
-  codice: ""         // indirizzo del repository
+  nome: "Marina Flocco",
+  bio: "Difenditrice della sicurezza informatica, fissata sulla caccia alla minaccia e sull'apprendimento perpetuo, mio e per gli altri. SOC L1 Technical Lead: threat detection e incident analysis. In rete mi trovi anche come MaryeeNeeSama.",
+  linkedin: "https://www.linkedin.com/in/marina-flocco-6311a617b",
+  email: "",         // facoltativa: se resta vuota la voce non compare
+  codice: "https://github.com/MaryeeNa/threat-hunting-range"
 };
 
 document.querySelectorAll("[data-campo]").forEach(el => { const v = PROFILO[el.dataset.campo]; if (v) { el.textContent = v; el.classList.remove("da-compilare"); } });
 document.querySelectorAll("[data-link]").forEach(a => {
   const k = a.dataset.link, v = PROFILO[k];
-  if (!v) { a.classList.add("da-compilare"); a.removeAttribute("href"); a.setAttribute("aria-disabled", "true"); return; }
+  if (!v) { (a.closest("li") || a).remove(); return; }
   a.href = k === "email" ? "mailto:" + v : v;
   if (k !== "email") { a.target = "_blank"; a.rel = "noopener"; }
 });
