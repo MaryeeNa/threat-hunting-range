@@ -4,6 +4,9 @@ Laboratorio per insegnare il triage ai nuovi analisti SOC. Sette console simulat
 
 - **Presentazione:** `index.html`
 - **Demo funzionante:** `demo/index.html` (un solo file di circa 2 MB, apribile anche da disco)
+- **Online:** https://maryeena.github.io/threat-hunting-range/ · [apri la demo](https://maryeena.github.io/threat-hunting-range/demo/)
+
+[![Simulatore: riepilogo di un'offense](img/qradar-offense.png)](https://maryeena.github.io/threat-hunting-range/demo/?guide=off#/sim/a24-qradar-offense/offenses/4471)
 
 ## Che cosa contiene la demo
 
@@ -16,6 +19,11 @@ Laboratorio per insegnare il triage ai nuovi analisti SOC. Sette console simulat
 
 Console simulate: IBM QRadar, Splunk Enterprise Security, Microsoft Defender XDR, Trend Vision One, ExtraHop RevealX, CrowdStrike Falcon, SentinelOne Singularity.
 Linguaggi: AQL, SPL, KQL, CQL, S1QL, ricerca di Trend, filtri di ExtraHop.
+
+## Da dove viene
+
+Il laboratorio è la parte pratica della SOC L1 Academy, il percorso di formazione che ho scritto per i nuovi analisti: un workflow di analisi comune a tutte le console, oltre venti manuali di piattaforma e guide dei casi, quattro giornate di corso con regia per il trainer, 25 assessment e 4 esercitazioni giornaliere.
+L'Academy contiene dati di casi reali e resta materiale interno. Qui c'è il metodo, con ogni caso riscritto su dati sintetici.
 
 ## Come è costruito
 

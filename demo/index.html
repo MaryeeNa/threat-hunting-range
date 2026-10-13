@@ -7669,16 +7669,16 @@ const ROADMAP = [
 
   events.sort((x, y) => x.starttime - y.starttime).forEach((e, i) => { e._id = "ev" + String(i + 1).padStart(5, "0"); });
   const RULES = [
-    { id: 100210, name: "[CYB] Multiple Login Failures", type: "Event", group: "Authentication", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
+    { id: 100210, name: "[SOC] Multiple Login Failures", type: "Event", group: "Authentication", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
       tests: [["and when the event category for the event is one of the following", "Authentication.User Login Failure"], ["and when at least", "30 events are seen with the same Username, Log Source in 5 minutes"], ["and NOT when the source IP is one of the following", "reference set VA-Scanners, Office365-Ranges, Monitor-Hosts"]],
       notes: "Conta i soli fallimenti, per coppia Username + Log Source. I login riusciti non entrano nei test: vanno cercati a parte." },
-    { id: 100118, name: "[CYB] Excessive Firewall Denies Between Hosts", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
+    { id: 100118, name: "[SOC] Excessive Firewall Denies Between Hosts", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
       tests: [["and when the event category for the event is one of the following", "Access.Firewall Deny"], ["and when at least", "400 events are seen with the same Source IP, Destination IP in 5 minutes"]], notes: "" }
   ];
   const OFFENSES = [
     { id: 7033, description: "Multiple Login Failures", type: "Username", source: "svc_bi", rule: 100210, match: { qid: [9000], username: "svc_bi" },
       from: "2026-09-23T10:24:00Z", to: "2026-09-23T10:29:00Z", magnitude: 6, relevance: 5, severity: 6, credibility: 6, status: "Open", network: "Net-10-172-192.Net_10_0_0_0", assigned: null,
-      notes: [{ time: "2026-09-23T10:29:20Z", who: "admin", text: "Offense creata dalla regola [CYB] Multiple Login Failures." }] },
+      notes: [{ time: "2026-09-23T10:29:20Z", who: "admin", text: "Offense creata dalla regola [SOC] Multiple Login Failures." }] },
     { id: 7021, description: "Excessive Firewall Denies Between Hosts", type: "Source IP", source: "10.22.3.57", start: "2026-09-23T08:11:10Z", last: "2026-09-23T08:16:40Z", events: 455, magnitude: 2, status: "Open", assigned: "l.riva", stub: true }
   ];
   const ASSET = { "10.10.40.12": "DB-SQL-04", "10.22.7.44": "BI-SCHED-02", "10.22.3.15": "ERP-APP-01", "10.22.3.31": "PORTAL-APP-03", "10.22.9.8": "DBA-WS-02" };
@@ -7705,7 +7705,7 @@ const ROADMAP = [
     source: "Academy A1 · Guida QRadar — Multiple Login Failures · Guida piattaforma QRadar L1",
     intel: {
       mandate: "L'offense 7033 \"Multiple Login Failures\" su DB-SQL-04 è assegnata a te. Stabilisci da dove arrivano davvero i tentativi, se nello stesso intervallo ci sono accessi riusciti, se il fenomeno si è già visto e che cosa scrivere nel ticket.",
-      alert: [["Offense ID", "7033"], ["Descrizione", "Multiple Login Failures"], ["Regola", "[CYB] Multiple Login Failures"], ["Offense source", "svc_bi"], ["Asset", "DB-SQL-04 (10.10.40.12)"], ["Finestra", "10:24 – 10:29 UTC, 23/09/2026"], ["Eventi", "86 autenticazioni fallite"], ["Magnitude", "6"]],
+      alert: [["Offense ID", "7033"], ["Descrizione", "Multiple Login Failures"], ["Regola", "[SOC] Multiple Login Failures"], ["Offense source", "svc_bi"], ["Asset", "DB-SQL-04 (10.10.40.12)"], ["Finestra", "10:24 – 10:29 UTC, 23/09/2026"], ["Eventi", "86 autenticazioni fallite"], ["Magnitude", "6"]],
       hosts: [
         { name: "DB-SQL-04", ip: "10.10.40.12", desc: "Database SQL Server di produzione; invia i log di autenticazione a QRadar." }
       ],
@@ -7957,18 +7957,18 @@ const ROADMAP = [
 
   events.sort((x, y) => x.starttime - y.starttime).forEach((e, i) => { e._id = "ev" + String(i + 1).padStart(5, "0"); });
   const RULES = [
-    { id: 100402, name: "[CYB] Directory Service Object modified by unauthorized account", type: "Event", group: "Active Directory", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
+    { id: 100402, name: "[SOC] Directory Service Object modified by unauthorized account", type: "Event", group: "Active Directory", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
       tests: [["and when the event QID is one of the following", "Success Audit: A directory service object was modified"], ["and when the event matches", "Object Class is group AND Attribute is member"], ["and NOT when", "Username is contained in the reference set AD-Authorized-Admins"]],
       notes: "\"Unauthorized\" significa soltanto: account non presente nel reference set AD-Authorized-Admins (ultimo aggiornamento del set: 2025-11-03). La regola non consulta PAM né il sistema dei change." },
-    { id: 100403, name: "[CYB] Activity detected on Protected Group", type: "Event", group: "Active Directory", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
+    { id: 100403, name: "[SOC] Activity detected on Protected Group", type: "Event", group: "Active Directory", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
       tests: [["and when the event QID is one of the following", "A member was added to / removed from a security-enabled global group"], ["and when the event matches", "Group Name is any of Domain Admins, Enterprise Admins, Schema Admins"]], notes: "Copre solo i tre gruppi elencati: G-FIN-ADM non è incluso." },
-    { id: 100118, name: "[CYB] Excessive Firewall Denies Between Hosts", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
+    { id: 100118, name: "[SOC] Excessive Firewall Denies Between Hosts", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
       tests: [["and when the event category for the event is one of the following", "Access.Firewall Deny"], ["and when at least", "400 events are seen with the same Source IP, Destination IP in 5 minutes"]], notes: "" }
   ];
   const OFFENSES = [
     { id: 5212, description: "Directory Service Object modified by unauthorized account", type: "Username", source: "adm.mverdi", rule: 100402, match: { qid: [6001], username: "adm.mverdi" },
       from: "2026-03-18T11:00:00Z", to: "2026-03-18T11:10:00Z", magnitude: 6, relevance: 5, severity: 7, credibility: 5, status: "Open", network: "Net-10-172-192.Net_10_0_0_0", assigned: null,
-      notes: [{ time: "2026-03-18T11:05:02Z", who: "admin", text: "Offense creata dalla regola [CYB] Directory Service Object modified by unauthorized account." }] },
+      notes: [{ time: "2026-03-18T11:05:02Z", who: "admin", text: "Offense creata dalla regola [SOC] Directory Service Object modified by unauthorized account." }] },
     { id: 5207, description: "Excessive Firewall Denies Between Hosts", type: "Source IP", source: "10.40.8.166", start: "2026-03-18T09:41:10Z", last: "2026-03-18T09:46:02Z", events: 447, magnitude: 2, status: "Open", assigned: "l.riva", stub: true },
     { id: 5198, description: "Multiple Login Failures for Single Username", type: "Username", source: "g.sala", start: "2026-03-17T16:02:44Z", last: "2026-03-17T16:09:12Z", events: 24, magnitude: 3, status: "Open", assigned: null, stub: true }
   ];
@@ -7995,7 +7995,7 @@ const ROADMAP = [
     source: "Academy A2 · Guida QRadar — Modifiche Active Directory · Guida piattaforma QRadar L1",
     intel: {
       mandate: "L'offense 5212 \"Directory Service Object modified by unauthorized account\" è assegnata a te. Ricostruisci il fatto tecnico dal payload (chi, quale oggetto, quale attributo, quale valore, in quale direzione), la sessione da cui è partito, l'uso del privilegio, e stabilisci che cosa puoi e non puoi dire sull'autorizzazione.",
-      alert: [["Offense ID", "5212"], ["Descrizione", "Directory Service Object modified by unauthorized account"], ["Regola", "[CYB] Directory Service Object modified by unauthorized account"], ["Offense source", "adm.mverdi"], ["Asset", "DC01 (10.40.1.10)"], ["Ora", "11:04:17 UTC, 18/03/2026"], ["Magnitude", "6"]],
+      alert: [["Offense ID", "5212"], ["Descrizione", "Directory Service Object modified by unauthorized account"], ["Regola", "[SOC] Directory Service Object modified by unauthorized account"], ["Offense source", "adm.mverdi"], ["Asset", "DC01 (10.40.1.10)"], ["Ora", "11:04:17 UTC, 18/03/2026"], ["Magnitude", "6"]],
       hosts: [
         { name: "DC01", ip: "10.40.1.10", desc: "Domain controller, raccolto via WinCollect." },
         { name: "FIN-SRV-02", ip: "10.40.6.22", desc: "File server Finance, raccolto via WinCollect." },
@@ -8191,12 +8191,12 @@ const ROADMAP = [
   /* ---- simulatore QRadar: id evento stabili, offense, regole, asset (dati sintetici) ---- */
   events.sort((x, y) => x.starttime - y.starttime).forEach((e, i) => { e._id = "ev" + String(i + 1).padStart(5, "0"); });
   const RULES = [
-    { id: 100214, name: "[CYB] Multiple Login Failures for Single Username", type: "Event", group: "Authentication", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
+    { id: 100214, name: "[SOC] Multiple Login Failures for Single Username", type: "Event", group: "Authentication", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
       tests: [["and when the event category for the event is one of the following", "Authentication.User Login Failure, Authentication.SSH Login Failed, Authentication.Host Login Failed"], ["and when at least", "20 events are seen with the same Username in 10 minutes"]],
       notes: "Conta i soli esiti di fallimento per lo stesso Username. Nessuna esclusione per account di servizio. I login riusciti non rientrano nei test della regola." },
-    { id: 100118, name: "[CYB] Excessive Firewall Denies Between Hosts", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
+    { id: 100118, name: "[SOC] Excessive Firewall Denies Between Hosts", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
       tests: [["and when the event category for the event is one of the following", "Access.Firewall Deny"], ["and when at least", "400 events are seen with the same Source IP, Destination IP in 5 minutes"]], notes: "" },
-    { id: 100305, name: "[CYB] Member Added to Privileged Group", type: "Event", group: "Authentication", enabled: false, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
+    { id: 100305, name: "[SOC] Member Added to Privileged Group", type: "Event", group: "Authentication", enabled: false, origin: "User", response: "Dispatch New Event · Offense indexed on Username",
       tests: [["and when the event QID is one of the following", "A member was added to a security-enabled global group"], ["and when the event matches", "Group Name is any of Domain Admins, Enterprise Admins, Schema Admins"]],
       notes: "Regola disabilitata. Copre soltanto i tre gruppi elencati: Backup Operators non è incluso." },
     { id: 100041, name: "Login Failures Followed By Success from the same Source IP", type: "Event", group: "Authentication", enabled: false, origin: "System", response: "Dispatch New Event",
@@ -8205,7 +8205,7 @@ const ROADMAP = [
   const OFFENSES = [
     { id: 4471, description: "Multiple Login Failures for Single Username", type: "Username", source: "svc_backup", rule: 100214, match: { qid: [5000], username: "svc_backup" },
       from: "2026-02-11T02:10:00Z", to: "2026-02-11T02:20:00Z", magnitude: 5, relevance: 4, severity: 6, credibility: 5, status: "Open", network: "Net-10-172-192.Net_10_0_0_0", assigned: null,
-      notes: [{ time: "2026-02-11T02:21:14Z", who: "admin", text: "Offense creata dalla regola [CYB] Multiple Login Failures for Single Username." }] },
+      notes: [{ time: "2026-02-11T02:21:14Z", who: "admin", text: "Offense creata dalla regola [SOC] Multiple Login Failures for Single Username." }] },
     { id: 4468, description: "Excessive Firewall Denies Between Hosts", type: "Source IP", source: "10.218.33.118", start: "2026-02-10T21:47:10Z", last: "2026-02-10T21:52:31Z", events: 512, magnitude: 3, status: "Open", assigned: "l.riva", stub: true },
     { id: 4459, description: "Excessive Firewall Denies Between Hosts", type: "Source IP", source: "10.218.41.27", start: "2026-02-10T15:02:44Z", last: "2026-02-10T15:09:02Z", events: 431, magnitude: 2, status: "Open", assigned: "l.riva", stub: true },
     { id: 4442, description: "Multiple Login Failures for Single Username", type: "Username", source: "it.ops", start: "2026-02-09T08:31:05Z", last: "2026-02-09T08:39:48Z", events: 23, magnitude: 3, status: "Open", assigned: null, stub: true }
@@ -8233,7 +8233,7 @@ const ROADMAP = [
     source: "Academy A24 · Guida piattaforma QRadar L1 · Multiple Login Failures · Modifiche Active Directory",
     intel: {
       mandate: "L'offense 4471 è stata assegnata a te. Stabilisci che cosa la regola può e non può dirti, chi genera davvero i fallimenti, se il fenomeno è un attacco, un picco o un'abitudine, se l'evento AD della stessa notte è collegabile, e che cosa non puoi verificare per mancanza di dati.",
-      alert: [["Offense ID", "4471"], ["Descrizione", "Multiple Login Failures for Single Username"], ["Regola", "[CYB] Multiple Login Failures for Single Username"], ["Condizione", "≥ 20 eventi failure, stesso username, finestra 10 minuti"], ["Esclusioni", "nessuna per account di servizio"], ["Offense source", "svc_backup"], ["Eventi", "86 (02:10 – 02:19, 11/02/2026)"], ["Magnitude", "5"], ["Log source", "SRV-APP-07 Linux OS"]],
+      alert: [["Offense ID", "4471"], ["Descrizione", "Multiple Login Failures for Single Username"], ["Regola", "[SOC] Multiple Login Failures for Single Username"], ["Condizione", "≥ 20 eventi failure, stesso username, finestra 10 minuti"], ["Esclusioni", "nessuna per account di servizio"], ["Offense source", "svc_backup"], ["Eventi", "86 (02:10 – 02:19, 11/02/2026)"], ["Magnitude", "5"], ["Log source", "SRV-APP-07 Linux OS"]],
       hosts: [
         { name: "SRV-APP-07", ip: "10.218.7.7", desc: "Server applicativo Linux. Invia syslog (sshd, cron) a QRadar." },
         { name: "DC-01", ip: "10.218.1.11", desc: "Domain controller, raccolto via WinCollect." },
@@ -8342,16 +8342,16 @@ const ROADMAP = [
 
   events.sort((x, y) => x.starttime - y.starttime).forEach((e, i) => { e._id = "ev" + String(i + 1).padStart(5, "0"); });
   const RULES = [
-    { id: 100121, name: "[CYB] Excessive Firewall Denies From A Local Host L2L", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
+    { id: 100121, name: "[SOC] Excessive Firewall Denies From A Local Host L2L", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
       tests: [["and when the event category for the event is one of the following", "Access.Firewall Deny"], ["and when the source is", "Local and the destination is Local (L2L)"], ["and when at least", "100 different Destination IP are seen with the same Source IP in 5 minutes"]],
       notes: "La chiave di aggregazione è il solo Source IP: la regola non distingue log source, utente né porta. Lo stesso indirizzo dietro firewall diversi viene sommato." },
-    { id: 100118, name: "[CYB] Excessive Firewall Denies Between Hosts", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
+    { id: 100118, name: "[SOC] Excessive Firewall Denies Between Hosts", type: "Event", group: "Recon", enabled: true, origin: "User", response: "Dispatch New Event · Offense indexed on Source IP",
       tests: [["and when the event category for the event is one of the following", "Access.Firewall Deny"], ["and when at least", "400 events are seen with the same Source IP, Destination IP in 5 minutes"]], notes: "" }
   ];
   const OFFENSES = [
     { id: 6120, description: "Excessive Firewall Denies From A Local Host L2L", type: "Source IP", source: SRC, rule: 100121, match: { qid: [8001], sourceip: SRC },
       from: "2026-04-09T11:30:00Z", to: "2026-04-09T11:35:00Z", magnitude: 4, relevance: 4, severity: 5, credibility: 4, status: "Open", network: "Net-10-172-192.Net_10_0_0_0", assigned: null,
-      notes: [{ time: "2026-04-09T11:35:20Z", who: "admin", text: "Offense creata dalla regola [CYB] Excessive Firewall Denies From A Local Host L2L." }] },
+      notes: [{ time: "2026-04-09T11:35:20Z", who: "admin", text: "Offense creata dalla regola [SOC] Excessive Firewall Denies From A Local Host L2L." }] },
     { id: 6112, description: "Multiple Login Failures for Single Username", type: "Username", source: "s.riva", start: "2026-04-09T09:02:10Z", last: "2026-04-09T09:08:40Z", events: 22, magnitude: 3, status: "Open", assigned: "l.riva", stub: true }
   ];
   const ASSET = { "10.72.20.1": "MI-SRV-GW", "10.60.3.11": "ROM-FS-01", "10.60.3.12": "ROM-FS-02", "10.60.3.13": "ROM-FS-03", "10.60.3.14": "ROM-FS-04", "10.90.0.2": "TO-DNS-01", "10.90.0.3": "TO-DNS-02", "10.90.0.4": "TO-DNS-03" };
@@ -8377,7 +8377,7 @@ const ROADMAP = [
     source: "Academy A3 · Guida QRadar — Excessive Firewall Denies · Guida piattaforma QRadar L1",
     intel: {
       mandate: "L'offense 6120 \"Excessive Firewall Denies From A Local Host L2L\" è assegnata a te. Stabilisci se 10.55.12.44 è un solo dispositivo, quale combinazione di firewall, utente e porta ha superato la soglia, se il pattern è compatibile con una scansione e che cosa manca per attribuirlo.",
-      alert: [["Offense ID", "6120"], ["Descrizione", "Excessive Firewall Denies From A Local Host L2L"], ["Regola", "[CYB] Excessive Firewall Denies From A Local Host L2L"], ["Offense source", "10.55.12.44"], ["Finestra", "11:30 – 11:35 UTC, 09/04/2026"], ["Eventi", "1.284 deny verso 183 destinazioni interne"], ["Magnitude", "4"]],
+      alert: [["Offense ID", "6120"], ["Descrizione", "Excessive Firewall Denies From A Local Host L2L"], ["Regola", "[SOC] Excessive Firewall Denies From A Local Host L2L"], ["Offense source", "10.55.12.44"], ["Finestra", "11:30 – 11:35 UTC, 09/04/2026"], ["Eventi", "1.284 deny verso 183 destinazioni interne"], ["Magnitude", "4"]],
       hosts: [
         { name: "FW-MI-01 / FW-ROM-02 / FW-TO-01", ip: "—", desc: "FortiGate delle sedi di Milano, Roma e Torino: tre log source distinte." },
         { name: "10.55.12.0/24", ip: "—", desc: "Rete Wi-Fi guest: lo stesso piano di indirizzi è riusato in ogni sede." }

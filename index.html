@@ -72,6 +72,16 @@ a:hover{text-decoration-thickness:.16em}
 .prove p{margin:0;color:var(--ardesia);max-width:38rem}
 .prove a{white-space:nowrap;font-weight:600}
 
+.indirizzo{margin:1.4rem 0 0!important;font-size:.95rem!important}
+.viste{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.2rem 2rem}
+.viste figure{margin:0}
+.viste .grande{grid-column:1/-1}
+.viste a:has(img){display:block;border:1px solid var(--riga);border-radius:4px;overflow:hidden;background:var(--inchiostro)}
+.viste a:has(img):hover{border-color:var(--inchiostro);box-shadow:.35rem .35rem 0 var(--riga)}
+.viste img{display:block;width:100%;height:auto}
+.viste figcaption{margin-top:.7rem;color:var(--ardesia);max-width:44rem}
+.viste figcaption strong{color:var(--inchiostro);font-weight:600}
+.viste figcaption a{font-weight:600;color:var(--inchiostro);white-space:nowrap}
 .finestra{background:var(--foglio);border:1px solid var(--riga);border-radius:4px;overflow:hidden}
 .finestra .barra{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:.7rem 1rem;border-bottom:1px solid var(--riga);font-size:.95rem}
 .finestra .barra select{font:inherit;font-size:.95rem;padding:.35rem .5rem;border:1px solid var(--riga);border-radius:3px;background:var(--foglio);color:inherit;max-width:100%}
@@ -105,6 +115,7 @@ footer p{margin:0;max-width:48rem}
   .apertura{padding:2rem 0 3.5rem}
   .prove li{grid-template-columns:1fr;gap:.4rem}
   .limiti{columns:1}
+  .viste{grid-template-columns:1fr}
   .sezione{padding:3.2rem 0}
   .campi div{grid-template-columns:7.5rem 1fr}
   .reperto{box-shadow:.3rem .3rem 0 var(--riga)}
@@ -120,7 +131,8 @@ footer p{margin:0;max-width:48rem}
   <span class="chi" data-campo="nome">Marina Flocco</span>
   <nav aria-label="Collegamenti">
     <a href="demo/">Demo</a>
-    <a href="#costruzione">Come è costruito</a>
+    <a href="#viste">Schermate</a>
+    <a href="#academy">Academy</a>
     <a href="#" data-link="codice">Codice</a>
     <a href="#" data-link="linkedin">LinkedIn</a>
   </nav>
@@ -133,8 +145,9 @@ footer p{margin:0;max-width:48rem}
     <p>Threat Hunting Range è il laboratorio che ho progettato per insegnare questo ai nuovi analisti SOC: sette console simulate, 31 casi da risolvere, dati interamente sintetici. Funziona nel browser, senza installare nulla.</p>
     <div class="azioni">
       <a class="bottone" href="demo/">Apri la demo</a>
-      <a href="#prove">Che cosa c'è dentro</a>
+      <a href="#viste">Guarda le schermate</a>
     </div>
+    <p class="indirizzo">Indirizzo della demo: <a href="demo/">maryeena.github.io/threat-hunting-range/demo</a></p>
   </div>
 
   <figure class="reperto" data-vista="fatto" style="margin:0" aria-label="Un alert di esempio letto in tre modi">
@@ -178,6 +191,23 @@ footer p{margin:0;max-width:48rem}
   </ul>
 </section>
 
+<section class="sezione" id="viste">
+  <h2>Cinque viste, ognuna si apre nella demo</h2>
+  <p class="intro">Le schermate vengono dal laboratorio pubblicato. Un clic porta alla stessa vista, pronta da usare.</p>
+  <div class="viste">
+    <figure class="grande"><a href="demo/?guide=off#/sim/a24-qradar-offense/offenses/4471"><img src="img/qradar-offense.png" width="1440" height="900" alt="Simulatore QRadar: riepilogo di un'offense con 86 login falliti" loading="lazy"></a>
+      <figcaption><strong>Console SIEM simulata.</strong> Il riepilogo di un'offense: da qui si legge la regola, si aprono gli eventi e si arriva al payload. <a href="demo/?guide=off#/sim/a24-qradar-offense/offenses/4471">Apri l'offense</a></figcaption></figure>
+    <figure><a href="demo/#/"><img src="img/percorso.png" width="1440" height="900" alt="Il percorso di formazione con le tappe e gli esercizi" loading="lazy"></a>
+      <figcaption><strong>Il percorso.</strong> Sei tappe, dalla preparazione ai casi a più console. <a href="demo/#/">Apri il percorso</a></figcaption></figure>
+    <figure><a href="demo/#/piattaforme/qradar"><img src="img/guida-qradar.png" width="1440" height="900" alt="Guida pratica a QRadar: capitoli, punti chiave, esercizio e verifica" loading="lazy"></a>
+      <figcaption><strong>Guida pratica.</strong> Punti chiave, esercizio nel simulatore e domande di verifica. <a href="demo/#/piattaforme/qradar">Apri la guida</a></figcaption></figure>
+    <figure><a href="demo/?guide=off#/sim/a7-defender-multistage/incidents/4417/attack-story"><img src="img/defender-attack-story.png" width="1440" height="900" alt="Simulatore Defender XDR: attack story di un incident con quattro alert" loading="lazy"></a>
+      <figcaption><strong>Incident a più alert.</strong> Quattro alert, una storia da ricostruire senza confondere correlazione e causa. <a href="demo/?guide=off#/sim/a7-defender-multistage/incidents/4417/attack-story">Apri l'incident</a></figcaption></figure>
+    <figure><a href="demo/?guide=off#/sim/a16-crowdstrike-ioa/detections/ldt%3A9c4f1a2b7e..%3A118293/tree"><img src="img/crowdstrike-process-tree.png" width="1440" height="900" alt="Simulatore EDR: albero dei processi di una detection su PowerShell" loading="lazy"></a>
+      <figcaption><strong>Catena dei processi.</strong> Padre, figlio e riga di comando di una detection su PowerShell. <a href="demo/?guide=off#/sim/a16-crowdstrike-ioa/detections/ldt%3A9c4f1a2b7e..%3A118293/tree">Apri l'albero</a></figcaption></figure>
+  </div>
+</section>
+
 <section class="sezione" id="finestra">
   <h2>Provalo senza uscire da questa pagina</h2>
   <p class="intro">Scegli da dove partire. La demo è la stessa che si apre a tutto schermo: un solo file, nessun server.</p>
@@ -216,6 +246,25 @@ footer p{margin:0;max-width:48rem}
       <dt>54</dt><dd>esercizi verificati sullo stato della console</dd>
       <dt>2.000</dt><dd>controlli automatici in dodici serie di test</dd>
       <dt>2 MB</dt><dd>un file, apribile da disco o da qualunque sito statico</dd>
+    </dl>
+  </div>
+</section>
+
+<section class="sezione" id="academy">
+  <h2>Da dove viene: la SOC L1 Academy</h2>
+  <div class="costruzione">
+    <div>
+      <p>Il laboratorio è la parte pratica di un lavoro più ampio. Prima è venuta la SOC L1 Academy: il percorso di formazione che ho scritto per i nuovi analisti del SOC in cui lavoro.</p>
+      <p>Per costruirla ho raccolto casi dal lavoro di tutti i giorni, li ho ricostruiti passo per passo e ne ho ricavato un solo modo di analizzare un alert, valido su qualunque console: trigger, dato grezzo, pivot, causalità, impatto, limiti dichiarati e verdict.</p>
+      <p>Da lì sono nati i manuali di piattaforma, le guide dei casi, la regia delle giornate per chi insegna e gli assessment per chi impara, in due edizioni: una per il trainer e una per l'analista, senza soluzioni.</p>
+      <p>L'Academy contiene dati di casi reali e resta materiale interno: qui non la trovi. Nel laboratorio ho portato il metodo e i concetti, riscrivendo ogni caso con dati sintetici.</p>
+    </div>
+    <dl class="misure">
+      <dt>20+</dt><dd>manuali di piattaforma e guide dei casi</dd>
+      <dt>1</dt><dd>workflow di analisi comune a tutte le console</dd>
+      <dt>4</dt><dd>giornate di corso, con regia per il trainer</dd>
+      <dt>25</dt><dd>assessment con criteri di valutazione</dd>
+      <dt>4</dt><dd>esercitazioni giornaliere da svolgere a casa</dd>
     </dl>
   </div>
 </section>
