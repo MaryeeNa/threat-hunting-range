@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Threat Hunting Range · laboratorio di triage per analisti SOC</title>
+<meta name="description" content="Un laboratorio per insegnare il triage ai nuovi analisti SOC: sette console simulate, 31 casi, dati sintetici. Demo funzionante nel browser.">
+<meta property="og:title" content="Threat Hunting Range">
+<meta property="og:description" content="Laboratorio di triage per analisti SOC: sette console simulate, 31 casi, demo funzionante nel browser.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --carta:#E9EEF0; --foglio:#FBFCFC; --inchiostro:#12303A; --ardesia:#4C6570; --riga:#C3CFD4;
+  --fatto:#F2C230; --ipotesi:#B9B4E6; --prossimo:#8FD3C1;
+  --testo: "Schibsted Grotesk", system-ui, sans-serif; --log: "IBM Plex Mono", ui-monospace, monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--carta);color:var(--inchiostro);font-family:var(--testo);font-size:1.0625rem;line-height:1.55}
+a{color:inherit;text-underline-offset:.18em;text-decoration-thickness:.08em}
+a:hover{text-decoration-thickness:.16em}
+:focus-visible{outline:3px solid var(--inchiostro);outline-offset:3px;border-radius:2px}
+.pagina{max-width:72rem;margin:0 auto;padding:0 1.5rem}
+
+/* testata */
+.testata{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;padding:1.4rem 0}
+.testata .chi{font-weight:600}
+.testata nav{display:flex;gap:1.4rem;flex-wrap:wrap}
+
+/* apertura */
+.apertura{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:3.5rem;align-items:start;padding:3.5rem 0 5rem}
+.apertura h1{font-size:clamp(2.3rem,5.2vw,4.1rem);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0 0 1.5rem;max-width:13ch}
+.apertura p{max-width:34rem;margin:0 0 1.9rem;color:var(--ardesia);font-size:1.15rem}
+.azioni{display:flex;gap:1.1rem;align-items:center;flex-wrap:wrap}
+.bottone{display:inline-block;background:var(--inchiostro);color:var(--foglio);font:inherit;font-weight:600;padding:.85rem 1.35rem;border:0;border-radius:3px;text-decoration:none;cursor:pointer}
+.bottone:hover{background:#0b2129}
+
+/* il reperto: un alert letto in tre modi */
+.reperto{background:var(--foglio);border:1px solid var(--riga);border-radius:4px;box-shadow:.5rem .5rem 0 var(--riga)}
+.reperto header{padding:.9rem 1.2rem;border-bottom:1px solid var(--riga);font-weight:600;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.reperto header span{font-weight:400;color:var(--ardesia)}
+.campi{margin:0;padding:1rem 1.2rem .4rem;font-family:var(--log);font-size:.875rem;line-height:1.5}
+.campi div{display:grid;grid-template-columns:9.5rem 1fr;gap:.6rem;padding:.28rem 0}
+.campi dt{color:var(--ardesia)}
+.campi dd{margin:0}
+.campi mark{background:transparent;color:inherit;padding:.05em .25em;margin:0 -.25em;border-radius:2px;transition:background-color .18s}
+.reperto[data-vista="fatto"] mark[data-k="fatto"]{background:var(--fatto)}
+.reperto[data-vista="ipotesi"] mark[data-k="ipotesi"]{background:var(--ipotesi)}
+.reperto[data-vista="prossimo"] mark[data-k="prossimo"]{background:var(--prossimo)}
+.letture{display:flex;border-top:1px solid var(--riga)}
+.letture button{flex:1;font:inherit;font-size:.95rem;font-weight:500;padding:.8rem .6rem;background:transparent;color:var(--ardesia);border:0;border-right:1px solid var(--riga);cursor:pointer}
+.letture button:last-child{border-right:0}
+.letture button[aria-pressed="true"]{color:var(--inchiostro);font-weight:600;box-shadow:inset 0 -4px 0 var(--inchiostro)}
+.letture button[data-v="fatto"][aria-pressed="true"]{box-shadow:inset 0 -4px 0 var(--fatto)}
+.letture button[data-v="ipotesi"][aria-pressed="true"]{box-shadow:inset 0 -4px 0 var(--ipotesi)}
+.letture button[data-v="prossimo"][aria-pressed="true"]{box-shadow:inset 0 -4px 0 var(--prossimo)}
+.nota{margin:0;padding:1rem 1.2rem 1.2rem;min-height:6.2rem;border-top:1px solid var(--riga)}
+
+/* sezioni */
+.sezione{padding:4.5rem 0;border-top:1px solid var(--riga)}
+.sezione h2{font-size:clamp(1.6rem,3vw,2.3rem);line-height:1.1;letter-spacing:-.025em;font-weight:800;margin:0 0 .9rem;max-width:22ch}
+.sezione .intro{max-width:40rem;color:var(--ardesia);margin:0 0 2.4rem}
+
+.prove{list-style:none;margin:0;padding:0}
+.prove li{display:grid;grid-template-columns:15rem minmax(0,1fr) auto;gap:2rem;align-items:baseline;padding:1.25rem 0;border-top:1px solid var(--riga)}
+.prove li:last-child{border-bottom:1px solid var(--riga)}
+.prove h3{font-size:1.1rem;font-weight:600;margin:0}
+.prove p{margin:0;color:var(--ardesia);max-width:38rem}
+.prove a{white-space:nowrap;font-weight:600}
+
+.finestra{background:var(--foglio);border:1px solid var(--riga);border-radius:4px;overflow:hidden}
+.finestra .barra{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:.7rem 1rem;border-bottom:1px solid var(--riga);font-size:.95rem}
+.finestra .barra select{font:inherit;font-size:.95rem;padding:.35rem .5rem;border:1px solid var(--riga);border-radius:3px;background:var(--foglio);color:inherit;max-width:100%}
+.finestra .schermo{aspect-ratio:16/9.6;background:var(--inchiostro);display:grid;place-items:center}
+.finestra iframe{width:100%;height:100%;border:0;display:block}
+.finestra .attesa{color:var(--foglio);text-align:center;padding:2rem;max-width:30rem}
+.finestra .attesa p{margin:0 0 1.2rem;opacity:.85}
+.finestra .attesa .bottone{background:var(--fatto);color:var(--inchiostro)}
+
+.costruzione{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:3.5rem}
+.costruzione p{margin:0 0 1rem;max-width:36rem}
+.misure{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.55rem 1.4rem;align-content:start}
+.misure dt{font-weight:800;font-size:1.5rem;letter-spacing:-.02em;text-align:right;line-height:1.2}
+.misure dd{margin:0;color:var(--ardesia);align-self:center}
+
+.limiti{columns:2;column-gap:3.5rem;max-width:60rem;margin:0;padding-left:1.1rem}
+.limiti li{break-inside:avoid;margin-bottom:.8rem;color:var(--ardesia)}
+
+.autrice{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:3.5rem}
+.autrice p{margin:0 0 1rem;max-width:38rem}
+.contatti{list-style:none;margin:0;padding:0}
+.contatti li{padding:.55rem 0;border-top:1px solid var(--riga)}
+.contatti li:last-child{border-bottom:1px solid var(--riga)}
+.da-compilare{background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(242,194,48,.35) 6px 12px);padding:.05em .3em;border-radius:2px}
+
+footer{padding:2.2rem 0 3rem;border-top:1px solid var(--riga);color:var(--ardesia);font-size:.95rem}
+footer p{margin:0;max-width:48rem}
+
+@media (max-width:56rem){
+  .apertura,.costruzione,.autrice{grid-template-columns:1fr;gap:2.4rem}
+  .apertura{padding:2rem 0 3.5rem}
+  .prove li{grid-template-columns:1fr;gap:.4rem}
+  .limiti{columns:1}
+  .sezione{padding:3.2rem 0}
+  .campi div{grid-template-columns:7.5rem 1fr}
+  .reperto{box-shadow:.3rem .3rem 0 var(--riga)}
+  .finestra .schermo{aspect-ratio:3/4}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="pagina">
+
+<header class="testata">
+  <span class="chi" data-campo="nome">Il tuo nome</span>
+  <nav aria-label="Collegamenti">
+    <a href="demo/">Demo</a>
+    <a href="#costruzione">Come è costruito</a>
+    <a href="#" data-link="codice">Codice</a>
+    <a href="#" data-link="linkedin">LinkedIn</a>
+  </nav>
+</header>
+
+<main>
+<section class="apertura">
+  <div>
+    <h1>Un alert dice che una regola è scattata. Il resto va dimostrato.</h1>
+    <p>Threat Hunting Range è il laboratorio che ho progettato per insegnare questo ai nuovi analisti SOC: sette console simulate, 31 casi da risolvere, dati interamente sintetici. Funziona nel browser, senza installare nulla.</p>
+    <div class="azioni">
+      <a class="bottone" href="demo/">Apri la demo</a>
+      <a href="#prove">Che cosa c'è dentro</a>
+    </div>
+  </div>
+
+  <figure class="reperto" data-vista="fatto" style="margin:0" aria-label="Un alert di esempio letto in tre modi">
+    <header>Multiple Login Failures for the Same User <span>caso di esempio</span></header>
+    <dl class="campi">
+      <div><dt>Eventi</dt><dd><mark data-k="fatto">86 autenticazioni fallite</mark></dd></div>
+      <div><dt>Finestra</dt><dd><mark data-k="fatto">02:14 – 02:23</mark>, <mark data-k="prossimo">solo questi 9 minuti</mark></dd></div>
+      <div><dt>Utente</dt><dd><mark data-k="fatto">svc-backup</mark> <mark data-k="ipotesi">(account di servizio)</mark></dd></div>
+      <div><dt>Sorgente</dt><dd><mark data-k="fatto">10.80.4.32</mark> <mark data-k="ipotesi">→ un solo host?</mark></dd></div>
+      <div><dt>Esito</dt><dd><mark data-k="fatto">Failed</mark> <mark data-k="prossimo">· i login riusciti non sono qui</mark></dd></div>
+      <div><dt>Regola</dt><dd><mark data-k="prossimo">conta i fallimenti, soglia 20 in 10 minuti</mark></dd></div>
+    </dl>
+    <div class="letture" role="group" aria-label="Come leggere l'alert">
+      <button type="button" data-v="fatto" aria-pressed="true">Che cosa dimostra</button>
+      <button type="button" data-v="ipotesi" aria-pressed="false">Che cosa non dimostra</button>
+      <button type="button" data-v="prossimo" aria-pressed="false">Che cosa cerco dopo</button>
+    </div>
+    <p class="nota" id="nota" aria-live="polite"></p>
+  </figure>
+</section>
+
+<section class="sezione" id="prove">
+  <h2>Che cosa trovi nella demo, e che cosa dice di come lavoro</h2>
+  <p class="intro">Ogni riga apre il punto esatto del laboratorio. Il progresso resta nel tuo browser: puoi provare senza lasciare traccia.</p>
+  <ul class="prove">
+    <li><h3>Metodo di triage</h3>
+      <p>Sette unità brevi su evento e alert, autenticazione, rete, processi, orari, fatti contro ipotesi, chiusura ed escalation. È il metodo che applico prima di aprire qualunque console.</p>
+      <a href="demo/#/preparazione">Apri la preparazione</a></li>
+    <li><h3>Conoscenza delle console</h3>
+      <p>Una guida pratica per QRadar, Splunk, Defender XDR, Trend Vision One, ExtraHop, CrowdStrike e SentinelOne. Ogni capitolo chiude con un esercizio da svolgere nel simulatore: 54 in tutto.</p>
+      <a href="demo/#/piattaforme">Apri le guide</a></li>
+    <li><h3>Linguaggi di query</h3>
+      <p>KQL, SPL, AQL, CQL, S1QL, la ricerca di Trend e i filtri di ExtraHop. Le query si scrivono davvero: dietro ci sono sette interpreti che ho specificato e fatto verificare caso per caso.</p>
+      <a href="demo/#/catalogo">Apri il catalogo</a></li>
+    <li><h3>Analisi di un caso</h3>
+      <p>Trentuno scenari su identità, endpoint, rete, posta e casi a più console. Ognuno si affronta guidato, in esercitazione o in autonomia, e termina con una nota di chiusura da confrontare con quella modello.</p>
+      <a href="demo/#/esercizio/a24-qradar-offense">Apri un caso</a></li>
+    <li><h3>Valutazione</h3>
+      <p>Il laboratorio distingue chi ha completato con aiuti da chi ha superato in autonomia, tiene i tentativi separati ed esporta un resoconto per il responsabile della formazione.</p>
+      <a href="demo/#/risultati">Apri i risultati</a></li>
+  </ul>
+</section>
+
+<section class="sezione" id="finestra">
+  <h2>Provalo senza uscire da questa pagina</h2>
+  <p class="intro">Scegli da dove partire. La demo è la stessa che si apre a tutto schermo: un solo file, nessun server.</p>
+  <div class="finestra">
+    <div class="barra">
+      <label for="partenza">Parti da</label>
+      <select id="partenza">
+        <option value="#/">Il percorso completo</option>
+        <option value="#/esercizio/a24-qradar-offense">Un caso su QRadar: l'offense che cambia due volte</option>
+        <option value="#/piattaforme/defender">La guida pratica a Defender XDR</option>
+        <option value="#/preparazione">La preparazione al metodo</option>
+      </select>
+      <a href="demo/" id="apriPiena">Apri a tutto schermo</a>
+    </div>
+    <div class="schermo" id="schermo">
+      <div class="attesa">
+        <p>La demo pesa circa 2 MB e si carica solo se la chiedi.</p>
+        <button class="bottone" type="button" id="carica">Carica la demo qui</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sezione" id="costruzione">
+  <h2>Come è costruito</h2>
+  <div class="costruzione">
+    <div>
+      <p>Il laboratorio è una sola pagina HTML che funziona anche senza rete. Niente framework e niente dipendenze: JavaScript, un piccolo script di build e una serie di test.</p>
+      <p>La scelta che conta di più è questa: la risposta attesa di un esercizio non è scritta nel codice. Viene calcolata eseguendo la stessa operazione sul simulatore, quindi coincide sempre con ciò che l'analista vede a schermo.</p>
+      <p>Ogni console ha la propria interfaccia, separata dal livello didattico. Chi impara vede schermate, nomi dei campi e linguaggio come nel prodotto; la guida sta di lato e si può spegnere.</p>
+      <p>Ho definito contenuti, metodo, casi e criteri di verifica, e ho sviluppato il codice con l'assistenza di Claude Code, controllando ogni parte con i test e a mano nel browser.</p>
+    </div>
+    <dl class="misure">
+      <dt>31</dt><dd>scenari, dal primo alert ai casi a più console</dd>
+      <dt>7</dt><dd>console simulate e altrettanti linguaggi di query</dd>
+      <dt>54</dt><dd>esercizi verificati sullo stato della console</dd>
+      <dt>2.000</dt><dd>controlli automatici in dodici serie di test</dd>
+      <dt>2 MB</dt><dd>un file, apribile da disco o da qualunque sito statico</dd>
+    </dl>
+  </div>
+</section>
+
+<section class="sezione" id="limiti">
+  <h2>Che cosa non è</h2>
+  <ul class="limiti">
+    <li>Non contiene dati reali: host, utenti, indirizzi ed eventi sono inventati per ogni scenario.</li>
+    <li>Non è un prodotto dei vendor citati né è affiliato a loro. I nomi dei prodotti appartengono ai rispettivi proprietari; non uso loghi né materiale grafico originale.</li>
+    <li>Le console sono simulazioni didattiche: riproducono le viste utili al triage, non l'intero prodotto.</li>
+    <li>Non sostituisce l'affiancamento sul campo: prepara al primo turno, non lo rimpiazza.</li>
+  </ul>
+</section>
+
+<section class="sezione" id="autrice">
+  <h2>Chi sono</h2>
+  <div class="autrice">
+    <div>
+      <p><span class="da-compilare" data-campo="bio">Due o tre frasi su di te: ruolo attuale, anni di esperienza in un SOC, che cosa ti interessa fare adesso.</span></p>
+      <p>Ho costruito questo laboratorio perché ai nuovi analisti mancava un posto dove sbagliare senza conseguenze, con casi che somigliano a quelli veri e una verifica che non si accontenta della risposta giusta trovata per caso.</p>
+    </div>
+    <ul class="contatti">
+      <li><a href="#" data-link="linkedin">LinkedIn</a></li>
+      <li><a href="#" data-link="email">Email</a></li>
+      <li><a href="#" data-link="codice">Codice sorgente</a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p>Threat Hunting Range è una simulazione didattica con dati sintetici. I nomi dei prodotti citati appartengono ai rispettivi proprietari.</p>
+</footer>
+</div>
+
+<script>
+/* Dati personali: si modificano solo qui. I campi lasciati vuoti restano evidenziati nella pagina. */
+const PROFILO = {
+  nome: "",          // es. "Nome Cognome"
+  bio: "",           // due o tre frasi
+  linkedin: "",      // indirizzo completo del profilo
+  email: "",         // es. "nome@dominio.it"
+  codice: ""         // indirizzo del repository
+};
+
+document.querySelectorAll("[data-campo]").forEach(el => { const v = PROFILO[el.dataset.campo]; if (v) { el.textContent = v; el.classList.remove("da-compilare"); } });
+document.querySelectorAll("[data-link]").forEach(a => {
+  const k = a.dataset.link, v = PROFILO[k];
+  if (!v) { a.classList.add("da-compilare"); a.removeAttribute("href"); a.setAttribute("aria-disabled", "true"); return; }
+  a.href = k === "email" ? "mailto:" + v : v;
+  if (k !== "email") { a.target = "_blank"; a.rel = "noopener"; }
+});
+if (PROFILO.nome) document.title = "Threat Hunting Range · " + PROFILO.nome;
+
+/* l'alert letto in tre modi */
+const NOTE = {
+  fatto: "Ottantasei tentativi falliti in nove minuti, tutti sullo stesso account e dalla stessa sorgente. Questo è ciò che i log affermano, e nient'altro.",
+  ipotesi: "Che sia un attacco, che l'account sia compromesso, che dietro quell'indirizzo ci sia un solo host. Un indirizzo può essere un NAT o un proxy, e un job mal configurato produce lo stesso disegno.",
+  prossimo: "La regola conta solo i fallimenti: un login riuscito va cercato a parte, con una ricerca mia. Poi allargo la finestra oltre i nove minuti e leggo il payload di un evento, non il riepilogo."
+};
+const reperto = document.querySelector(".reperto"), nota = document.getElementById("nota");
+function leggi(v) {
+  reperto.dataset.vista = v; nota.textContent = NOTE[v];
+  reperto.querySelectorAll(".letture button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === v)));
+}
+reperto.querySelectorAll(".letture button").forEach(b => b.addEventListener("click", () => leggi(b.dataset.v)));
+leggi("fatto");
+
+/* la demo dentro la pagina, caricata solo a richiesta */
+const schermo = document.getElementById("schermo"), partenza = document.getElementById("partenza"), piena = document.getElementById("apriPiena");
+let cornice = null;
+function mostra() {
+  const url = "demo/" + partenza.value; piena.href = url;
+  if (!cornice) return;
+  cornice.src = "about:blank"; setTimeout(() => { cornice.src = url; }, 30);   // il cambio di sola ancora non ricarica la pagina
+}
+document.getElementById("carica").addEventListener("click", () => {
+  cornice = document.createElement("iframe"); cornice.title = "Threat Hunting Range, demo";
+  schermo.replaceChildren(cornice); mostra(); cornice.focus();
+});
+partenza.addEventListener("change", mostra); mostra();
+</script>
+</body>
+</html>
