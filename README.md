@@ -8,6 +8,8 @@ Laboratorio per insegnare il triage ai nuovi analisti SOC. Sette console simulat
 
 [![Come funziona: dal percorso al caso, dalla console al payload, fino al resoconto](img/anteprima.gif)](https://maryeena.github.io/threat-hunting-range/demo/)
 
+Video di presentazione (45 secondi, senza audio): [`video/threat-hunting-range.mp4`](video/threat-hunting-range.mp4)
+
 ## Che cosa contiene la demo
 
 | Parte | Che cosa mostra | Dove |

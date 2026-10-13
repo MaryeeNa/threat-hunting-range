@@ -84,6 +84,7 @@ a:hover{text-decoration-thickness:.16em}
 .viste a:has(img){display:block;border:1px solid var(--riga);border-radius:4px;overflow:hidden;background:var(--inchiostro)}
 .viste a:has(img):hover{border-color:var(--inchiostro);box-shadow:.35rem .35rem 0 var(--riga)}
 .viste img{display:block;width:100%;height:auto}
+.viste video{display:block;width:100%;height:auto;border:1px solid var(--riga);border-radius:4px;background:var(--inchiostro)}
 .viste figcaption{margin-top:.7rem;color:var(--ardesia);max-width:44rem}
 .viste figcaption strong{color:var(--inchiostro);font-weight:600}
 .viste figcaption a{font-weight:600;color:var(--inchiostro);white-space:nowrap}
@@ -200,12 +201,12 @@ footer p{margin:0;max-width:48rem}
   <h2>Come funziona, in mezzo minuto</h2>
   <p class="intro">Dal percorso al caso, dalla console al payload, fino al resoconto. Le immagini vengono dal laboratorio pubblicato: un clic apre la stessa vista, pronta da usare.</p>
   <div class="viste">
-    <figure class="grande"><a href="demo/">
-      <picture>
-        <source media="(prefers-reduced-motion: reduce)" srcset="img/percorso.png">
-        <img src="img/anteprima.gif" width="960" height="668" alt="Sequenza animata: il percorso, la scheda di un caso, la console simulata con la guida, la ricerca degli eventi, una query, il payload, altre due console, una guida pratica e i risultati" loading="lazy">
-      </picture></a>
-      <figcaption><strong>Il giro completo in dieci viste.</strong> L'animazione si ripete; per provarlo davvero <a href="demo/">apri la demo</a></figcaption></figure>
+    <figure class="grande">
+      <video controls muted playsinline preload="none" poster="img/video-poster.jpg" width="1920" height="1080" aria-label="Video di presentazione: 45 secondi, senza audio">
+        <source src="video/threat-hunting-range.mp4" type="video/mp4">
+        <a href="video/threat-hunting-range.mp4">Scarica il video</a>
+      </video>
+      <figcaption><strong>Il giro completo in 45 secondi.</strong> Senza audio, con didascalie. Per provarlo davvero <a href="demo/">apri la demo</a></figcaption></figure>
     <figure class="grande"><a href="demo/?guide=off#/sim/a24-qradar-offense/offenses/4471"><img src="img/qradar-offense.png" width="1440" height="900" alt="Simulatore QRadar: riepilogo di un'offense con 86 login falliti" loading="lazy"></a>
       <figcaption><strong>Console SIEM simulata.</strong> Il riepilogo di un'offense: da qui si legge la regola, si aprono gli eventi e si arriva al payload. <a href="demo/?guide=off#/sim/a24-qradar-offense/offenses/4471">Apri l'offense</a></figcaption></figure>
     <figure><a href="demo/#/"><img src="img/percorso.png" width="1440" height="900" alt="Il percorso di formazione con le tappe e gli esercizi" loading="lazy"></a>
